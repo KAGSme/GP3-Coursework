@@ -15,6 +15,7 @@
 #include "cCamera.h"
 #include "cInputMgr.h"
 #include "cModel.h"
+#include "cSceneMgr.h"
 
 int WINAPI WinMain(HINSTANCE hInstance,
                    HINSTANCE hPrevInstance,
@@ -27,8 +28,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
     const int windowHeight = 768;
     const int windowBPP = 16;
 
-
-
     //This is our window
 	static cWNDManager* pgmWNDMgr = cWNDManager::getInstance();
 
@@ -37,6 +36,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	// This is the Font manager
 	static cFontMgr* theFontMgr = cFontMgr::getInstance();
+
+	static cSceneMgr* theScene = cSceneMgr::getInstance();
 
     //The example OpenGL code
     windowOGL theOGLWnd;
@@ -66,10 +67,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
     }
 
 	// Create Texture map
-	cTexture tardisTexture;
-	tardisTexture.createTexture("Models/tardis.png");
-	cTexture starTexture;
-	starTexture.createTexture("Images/star.png");
 
 
 	// Create Materials for lights
@@ -104,6 +101,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	// Model
 
+	theScene->begin();
+
 	float tCount = 0.0f;
 	string outputMsg;
 
@@ -120,20 +119,9 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		theOGLWnd.initOGL(windowWidth,windowHeight);
 
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		glLoadMatrixf((GLfloat*)&theCamera.getTheViewMatrix());
+		theScene->update(elapsedTime);
 
-		sunMaterial.useMaterial();
-		sunLight.lightOn();
-		
-		outputMsg = to_string(floorf(tCount)); // convert float to string
-		
-		glPushMatrix();
-		theOGLWnd.setOrtho2D(windowWidth, windowHeight);
-		theFontMgr->getFont("DrWho")->printText("Tardis Wars", FTPoint(10, 35, 0.0f), colour3f(0.0f,255.0f,0.0f));
-		theFontMgr->getFont("DrWho")->printText(outputMsg.c_str(), FTPoint(850, 35, 0.0f), colour3f(255.0f, 255.0f, 0.0f)); // uses c_str to convert string to LPCSTR
-		glPopMatrix();
+		theScene->render();
 
 		pgmWNDMgr->swapBuffers();
 

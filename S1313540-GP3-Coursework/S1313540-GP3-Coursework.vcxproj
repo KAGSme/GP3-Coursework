@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{32ACA3D5-923E-4CB6-8041-3CA9FD57E473}</ProjectGuid>
     <RootNamespace>S1313540GP3Coursework</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cActor.cpp" />
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="cColours.cpp" />
     <ClCompile Include="cFont.cpp" />
@@ -120,8 +121,11 @@
     <ClCompile Include="cMaterial.cpp" />
     <ClCompile Include="cMesh.cpp" />
     <ClCompile Include="cModel.cpp" />
+    <ClCompile Include="cPlayerCarActor.cpp" />
+    <ClCompile Include="cSceneMgr.cpp" />
     <ClCompile Include="cShader.cpp" />
     <ClCompile Include="cTexture.cpp" />
+    <ClCompile Include="cTransform.cpp" />
     <ClCompile Include="cTriangle.cpp" />
     <ClCompile Include="cWNDManager.cpp" />
     <ClCompile Include="GameConstants.cpp" />
@@ -129,6 +133,7 @@
     <ClCompile Include="windowOGL.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cActor.h" />
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="cColours.h" />
     <ClInclude Include="cFont.h" />
@@ -138,11 +143,15 @@
     <ClInclude Include="cMaterial.h" />
     <ClInclude Include="cMesh.h" />
     <ClInclude Include="cModel.h" />
+    <ClInclude Include="cPlayerCarActor.h" />
+    <ClInclude Include="cSceneMgr.h" />
     <ClInclude Include="cShader.h" />
     <ClInclude Include="cTexture.h" />
+    <ClInclude Include="cTransform.h" />
     <ClInclude Include="cTriangle.h" />
     <ClInclude Include="cWNDManager.h" />
     <ClInclude Include="GameConstants.h" />
+    <ClInclude Include="InputHandle.h" />
     <ClInclude Include="wglext.h" />
     <ClInclude Include="windowOGL.h" />
   </ItemGroup>

@@ -63,6 +63,18 @@
     <ClCompile Include="cMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cActor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cTransform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayerCarActor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cSceneMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cCamera.h">
@@ -111,6 +123,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cActor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cTransform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlayerCarActor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHandle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cSceneMgr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
