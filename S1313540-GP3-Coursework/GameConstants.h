@@ -19,8 +19,6 @@
 #include "IL\ilu.h"
 #include "IL\ilut.h"
 
-// Model Loading Library
-
 // Font
 #include "FTGL\ftgl.h"
 

@@ -87,15 +87,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	theFontMgr->addFont("Space", gameFonts[1], 24);
 	theFontMgr->addFont("DrWho", gameFonts[2], 48);
 
-	// Create a camera
-	cCamera theCamera;
-	theCamera.setTheCameraPos(glm::vec3(0.0f, 0.0f, 10.0f));
-	theCamera.setTheCameraLookAt(glm::vec3(0.0f, 0.0f, 0.0f));
-	theCamera.setTheCameraUpVector(glm::vec3(0.0f, 1.0f, 0.0f)); // pointing upwards in world space
-	theCamera.setTheCameraAspectRatio(windowWidth, windowHeight);
-	theCamera.setTheProjectionMatrix(45.0f, theCamera.getTheCameraAspectRatio(), 0.1f, 300.0f);
-	theCamera.update();
-
 	//Clear key buffers
 	theInputMgr->clearBuffers(theInputMgr->KEYS_DOWN_BUFFER | theInputMgr->KEYS_PRESSED_BUFFER);
 
@@ -122,6 +113,12 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		theScene->update(elapsedTime);
 
 		theScene->render();
+
+		glPushMatrix();
+		theOGLWnd.setOrtho2D(windowWidth, windowHeight);
+		theFontMgr->getFont("DrWho")->printText("Tardis Wars", FTPoint(10, 35, 0.0f), colour3f(0.0f, 255.0f, 0.0f));
+		theFontMgr->getFont("DrWho")->printText(outputMsg.c_str(), FTPoint(850, 35, 0.0f), colour3f(255.0f, 255.0f, 0.0f)); // uses c_str to convert string to LPCSTR
+		glPopMatrix();
 
 		pgmWNDMgr->swapBuffers();
 

@@ -3,6 +3,7 @@
 
 #include "GameConstants.h"
 #include "cMesh.h"
+#include "cCamera.h"
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"

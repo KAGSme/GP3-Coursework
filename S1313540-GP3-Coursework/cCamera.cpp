@@ -119,6 +119,11 @@ void cCamera::setCamViewMatrix()
 	m_camViewMatrix = glm::lookAt(m_cameraPos, m_cameraLookAt, m_cameraUpVector);
 }
 
+void cCamera::setCamViewMatrix(glm::mat4 newMatrix)
+{
+	m_camViewMatrix = newMatrix;
+}
+
 glm::mat4 cCamera::getCamViewMatrix()
 {
 	return m_camViewMatrix;
@@ -126,9 +131,40 @@ glm::mat4 cCamera::getCamViewMatrix()
 
 void cCamera::update()
 {
-	setTheCameraDirection();
-	setTheCameraStrafe();
-	setTheCameraUpVector(glm::cross(m_cameraDirection, m_cameraStrafe));
+	if (m_parentTransform != nullptr)
+	{
+		m_parentTransform->getTransformationMatrix();
+
+		m_cameraDirection = -1.f * m_parentTransform->getForward();
+		setTheCameraUpVector(m_parentTransform->getUp());
+
+		m_cameraPos = m_parentTransform->GetPosition();
+		setTheCameraLookAt(m_cameraPos - m_cameraDirection;
+
+		setCamViewMatrix();
+	}
+	else
+	{
+		glm::quat qPitch = angleAxis(radians(pitch), vec3(1, 0, 0));
+		glm::quat qYaw = angleAxis(radians(yaw), vec3(0, 1, 0));
+		glm::quat qRoll = angleAxis(radians(roll), vec3(0, 0, 1));
+
+		glm::quat orientation = qPitch * qYaw;
+		orientation = glm::normalize(orientation);
+		glm::mat4 currentRotate = glm::mat4_cast(orientation);
+
+		glm::mat4 currentTranslate = glm::mat4(1.0f);
+		currentTranslate = glm::translate(currentTranslate, -m_cameraPos);
+
+		glm::mat4 viewMatrix = currentRotate * currentTranslate;
+
+		m_cameraDirection = -1.f * vec3(0, 0, 1) * mat3(currentRotate);
+		setTheCameraUpVector(vec3(0, 1, 0) * mat3(currentRotate));
+		m_cameraStrafe = vec3(1, 0, 0) * mat3(currentRotate);
+
+		setCamViewMatrix(viewMatrix);
+	}
+
 	setTheProjectionMatrix(45.0f, getTheCameraAspectRatio(), 0.1f, 300.0f);
-	setCamViewMatrix();
 }
+

@@ -9,6 +9,7 @@ cCamera.h
 
 // OpenGL Headers
 #include "GameConstants.h"
+#include "cTransform.h"
 
 using namespace std;
 
@@ -19,6 +20,7 @@ private:
 	//--------------------------------------------------------------------------------------
 	// Added for the creation of a camera
 	//--------------------------------------------------------------------------------------
+	cTransform* m_parentTransform;
 	glm::mat4 m_camViewMatrix;     // Cameras view
 	glm::mat4 m_ProjectionMatrix;  // Projection Matrix
 	glm::vec3 m_cameraPos;			// Position of Camera in world
@@ -29,7 +31,7 @@ private:
 	GLfloat m_AspectRatio;
 	glm::mat4 m_camRotationMatrix;	// Rotation Matrix for camera to reflect movement around Y Axis
 	glm::vec3 m_camTransform;		// Used for repositioning the camer after it has been rotated
-
+	GLfloat m_yaw, m_pitch, m_roll;
 
 	glm::vec4 m_viewPort;
 
@@ -44,6 +46,7 @@ public:
 	const glm::vec4 getTheViewPort();
 
 	void setCamViewMatrix();
+	void setCamViewMatrix(glm::mat4 newMatrix);
 	glm::mat4 getCamViewMatrix();
 
 	void setTheCameraPos(glm::vec3 camPos);
