@@ -137,17 +137,18 @@ void cCamera::update()
 
 		m_cameraDirection = -1.f * m_parentTransform->getForward();
 		setTheCameraUpVector(m_parentTransform->getUp());
+		m_cameraStrafe = m_parentTransform->getRight();
 
-		m_cameraPos = m_parentTransform->GetPosition();
-		setTheCameraLookAt(m_cameraPos - m_cameraDirection;
+		m_cameraPos = m_parentTransform->getPosition();
+		setTheCameraLookAt(m_cameraPos - m_cameraDirection);
 
 		setCamViewMatrix();
 	}
 	else
 	{
-		glm::quat qPitch = angleAxis(radians(pitch), vec3(1, 0, 0));
-		glm::quat qYaw = angleAxis(radians(yaw), vec3(0, 1, 0));
-		glm::quat qRoll = angleAxis(radians(roll), vec3(0, 0, 1));
+		glm::quat qPitch = glm::angleAxis(glm::radians(m_pitch), glm::vec3(1, 0, 0));
+		glm::quat qYaw = glm::angleAxis(glm::radians(m_yaw), glm::vec3(0, 1, 0));
+		glm::quat qRoll = glm::angleAxis(glm::radians(m_roll), glm::vec3(0, 0, 1));
 
 		glm::quat orientation = qPitch * qYaw;
 		orientation = glm::normalize(orientation);
@@ -158,9 +159,9 @@ void cCamera::update()
 
 		glm::mat4 viewMatrix = currentRotate * currentTranslate;
 
-		m_cameraDirection = -1.f * vec3(0, 0, 1) * mat3(currentRotate);
-		setTheCameraUpVector(vec3(0, 1, 0) * mat3(currentRotate));
-		m_cameraStrafe = vec3(1, 0, 0) * mat3(currentRotate);
+		m_cameraDirection = -1.f * glm::vec3(0, 0, 1) * glm::mat3(currentRotate);
+		setTheCameraUpVector(glm::vec3(0, 1, 0) * glm::mat3(currentRotate));
+		m_cameraStrafe = glm::vec3(1, 0, 0) * glm::mat3(currentRotate);
 
 		setCamViewMatrix(viewMatrix);
 	}

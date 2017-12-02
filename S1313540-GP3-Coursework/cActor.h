@@ -20,8 +20,8 @@ public:
 	void setShader(cShader* newShader) { m_shader = newShader; };
 	void setTransform(cTransform* newTransform) { m_transform = newTransform; };
 
-private:
-	cTransform* m_transform;
+protected:
+	cTransform* m_transform = new cTransform();
 	cShader* m_shader;
 };
 

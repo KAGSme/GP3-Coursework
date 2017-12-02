@@ -192,13 +192,20 @@ LRESULT CALLBACK cWNDManager::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 		//Set the version that we want, in this case 3.0
 		int attribs[] = {
 			WGL_CONTEXT_MAJOR_VERSION_ARB, 3,
-			WGL_CONTEXT_MINOR_VERSION_ARB, 0,
+			WGL_CONTEXT_MINOR_VERSION_ARB, 1,
+			WGL_CONTEXT_FLAGS_ARB, 0,
 			0 }; //zero indicates the end of the array
 
 		//Create temporary context so we can get a pointer to the function
 		HGLRC tmpContext = wglCreateContext(pInstance->m_hdc);
 		//Make it current
 		wglMakeCurrent(pInstance->m_hdc, tmpContext);
+
+		GLenum err = glewInit();
+		if (GLEW_OK != err)
+		{
+			OutputDebugString("GLEW is not initialized!");
+		}
 
 		//Get the function pointer
 		wglCreateContextAttribsARB = (PFNWGLCREATECONTEXTATTRIBSARBPROC)wglGetProcAddress("wglCreateContextAttribsARB");
@@ -247,8 +254,13 @@ LRESULT CALLBACK cWNDManager::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 		pInstance->m_InputMgr->keyDown(wParam);
 		return 0;
 	}
-
 		break;
+	case WM_MOUSEMOVE:
+	{
+		pInstance->m_InputMgr->mouseXY(lParam);
+		return 0;
+	}
+	break;
 	default:
 		break;
 	}

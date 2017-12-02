@@ -38,6 +38,14 @@
 // Textures
 #include "cTexture.h"
 
+#include "cInputMgr.h"
+#include "inputHandle.h"
+
+const std::string ASSETPATH = "assets/";
+const std::string TEXTUREPATH = ASSETPATH + "textures/";
+const std::string MODELPATH = ASSETPATH + "models/";
+const std::string SHADERPATH = ASSETPATH + "shaders/";
+
 
 struct lightColour4
 {

@@ -22,7 +22,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
                    LPSTR cmdLine,
                    int cmdShow)
 {
-
     //Set our window settings
     const int windowWidth = 1024;
     const int windowHeight = 768;
@@ -66,19 +65,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
         return 1;
     }
 
-	// Create Texture map
-
-
-	// Create Materials for lights
-	cMaterial sunMaterial(lightColour4(0.0f, 0.0f, 0.0f, 1.0f), lightColour4(1.0f, 1.0f, 1.0f, 1.0f), lightColour4(1.0f, 1.0f, 1.0f, 1.0f), lightColour4(0, 0, 0, 1.0f), 5.0f);
-
-	// Create Light
-	cLight sunLight(GL_LIGHT0, lightColour4(0, 0, 0, 1), lightColour4(1, 1, 1, 1), lightColour4(1, 1, 1, 1), glm::vec4(0, 0, 20, 1),
-		glm::vec3(0.0, 0.0, 1.0), 0.0f, 180.0f, 1.0f, 0.0f, 0.0f);
-	//Define Ambient light for scene
-	GLfloat g_Ambient[] = { 0.2, 0.2, 0.2, 1.0 };
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, g_Ambient);
-
 	// load game fonts
 	// Load Fonts
 	LPCSTR gameFonts[3] = { "Fonts/digital-7.ttf", "Fonts/space age.ttf", "Fonts/doctor_who.ttf" };
@@ -90,9 +76,27 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	//Clear key buffers
 	theInputMgr->clearBuffers(theInputMgr->KEYS_DOWN_BUFFER | theInputMgr->KEYS_PRESSED_BUFFER);
 
-	// Model
+	//set up actions and axis
+	InputAction* ia = new InputAction();
+	ia->name = "SpeedBoost";
+	ia->keys = {VK_SHIFT};//c
+	theInputMgr->addInputAction(*ia);
+	InputAxis* iAxis = new InputAxis();
+	iAxis->name = "Vertical";
+	iAxis->keysPos = { 'W' };
+	iAxis->keysNeg = { 'S' };
+	theInputMgr->addInputAxis(*iAxis);
+	iAxis = new InputAxis();
+	iAxis->name = "Horizontal";
+	iAxis->keysPos = { 'D' };
+	iAxis->keysNeg = { 'A' };
+	theInputMgr->addInputAxis(*iAxis);
 
-	theScene->begin();
+	theInputMgr->resetMouseDelta();
+	theInputMgr->cleanInputActions();
+	theInputMgr->cleanInputAxis();
+
+	cSceneMgr::getInstance()->begin();
 
 	float tCount = 0.0f;
 	string outputMsg;
@@ -102,33 +106,35 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	while (pgmWNDMgr->isWNDRunning())
     {
 		pgmWNDMgr->processWNDEvents(); //Process any window events
+		theInputMgr->updateInputActions();
+		theInputMgr->updateInputAxis();
 
         //We get the time that passed since the last frame
 		float elapsedTime = pgmWNDMgr->getElapsedSeconds();
 		
 		// Lab code goes here
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		theOGLWnd.initOGL(windowWidth,windowHeight);
 
-		theScene->update(elapsedTime);
+		cSceneMgr::getInstance()->update(elapsedTime);
 
-		theScene->render();
+		cSceneMgr::getInstance()->render();
 
-		glPushMatrix();
-		theOGLWnd.setOrtho2D(windowWidth, windowHeight);
-		theFontMgr->getFont("DrWho")->printText("Tardis Wars", FTPoint(10, 35, 0.0f), colour3f(0.0f, 255.0f, 0.0f));
-		theFontMgr->getFont("DrWho")->printText(outputMsg.c_str(), FTPoint(850, 35, 0.0f), colour3f(255.0f, 255.0f, 0.0f)); // uses c_str to convert string to LPCSTR
-		glPopMatrix();
+		//theOGLWnd.setOrtho2D(windowWidth, windowHeight);
+		//theFontMgr->getFont("DrWho")->printText("Tardis Wars", FTPoint(10, 35, 0.0f), colour3f(0.0f, 255.0f, 0.0f));
+		//theFontMgr->getFont("DrWho")->printText(outputMsg.c_str(), FTPoint(850, 35, 0.0f), colour3f(255.0f, 255.0f, 0.0f)); // uses c_str to convert string to LPCSTR
+
+		//Clear key buffers
+		theInputMgr->clearBuffers(theInputMgr->KEYS_DOWN_BUFFER | theInputMgr->KEYS_PRESSED_BUFFER);
+		theInputMgr->resetMouseDelta();
+		theInputMgr->cleanInputActions();
+		theInputMgr->cleanInputAxis();
 
 		pgmWNDMgr->swapBuffers();
 
 		tCount += elapsedTime;
-
-		//Clear key buffers
-		theInputMgr->clearBuffers(theInputMgr->KEYS_DOWN_BUFFER | theInputMgr->KEYS_PRESSED_BUFFER);
-
 	}
 
+	cSceneMgr::getInstance()->releaseResources();
 	theOGLWnd.shutdown(); //Free any resources
 	pgmWNDMgr->destroyWND(); //Destroy the program window
 

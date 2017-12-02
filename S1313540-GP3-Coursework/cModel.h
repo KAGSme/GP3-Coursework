@@ -12,7 +12,7 @@ class cModel
 {
 public:
 	//model data
-	cModel(char *path)
+	cModel(const char *path)
 	{
 		loadModel(path);
 	}

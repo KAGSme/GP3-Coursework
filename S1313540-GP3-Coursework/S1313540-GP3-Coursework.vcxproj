@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{32ACA3D5-923E-4CB6-8041-3CA9FD57E473}</ProjectGuid>
     <RootNamespace>S1313540GP3Coursework</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -116,6 +116,7 @@
     <ClCompile Include="cColours.cpp" />
     <ClCompile Include="cFont.cpp" />
     <ClCompile Include="cFontMgr.cpp" />
+    <ClCompile Include="cFreeCameraActor.cpp" />
     <ClCompile Include="cInputMgr.cpp" />
     <ClCompile Include="cLight.cpp" />
     <ClCompile Include="cMaterial.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="cColours.h" />
     <ClInclude Include="cFont.h" />
     <ClInclude Include="cFontMgr.h" />
+    <ClInclude Include="cFreeCameraActor.h" />
     <ClInclude Include="cInputMgr.h" />
     <ClInclude Include="cLight.h" />
     <ClInclude Include="cMaterial.h" />

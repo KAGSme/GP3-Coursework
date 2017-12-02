@@ -10,7 +10,7 @@ public:
 
 	virtual void begin() override;
 	virtual void update(float elapsedTime) override;
-	virtual void render() override;
+	virtual void render(cCamera* camera) override;
 private:
 	cModel* m_model;
 };

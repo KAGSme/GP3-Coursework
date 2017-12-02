@@ -1,4 +1,5 @@
 #include "cModel.h"
+#include "cSceneMgr.h"
 
 void cModel::RenderModel(cShader shader)
 {
@@ -11,7 +12,7 @@ void cModel::RenderModel(cShader shader)
 void cModel::loadModel(std::string path)
 {
 	Assimp::Importer imp;
-	const aiScene *scene = imp.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+	const aiScene *scene = imp.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenNormals);
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
@@ -118,6 +119,7 @@ std::vector<cTexture*> cModel::loadMaterialTextures(aiMaterial * mat, aiTextureT
 			texture->createTexture(filename.c_str());
 			texture->setType(cTtype);
 			textures.push_back(texture);
+			cSceneMgr::getInstance()->addTexture(texture, filename.c_str());
 			m_loadedTextures.push_back(texture);
 		}
 	}

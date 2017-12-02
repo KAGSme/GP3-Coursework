@@ -172,6 +172,16 @@ void cInputMgr::mouseXY(LPARAM lParam)
 	mousePos.y = HIWORD(lParam);
 }
 
+glm::ivec2 cInputMgr::mouseXYDelta()
+{
+	return mousePos - mousePosOld;
+}
+
+void cInputMgr::resetMouseDelta()
+{
+	mousePosOld = mousePos;
+}
+
 /*
 =============================================================================
    Save state of mouse button
@@ -243,5 +253,125 @@ bool cInputMgr::getMiddleMouseBtn()
 bool cInputMgr::getRightMouseBtn()
 {
 	return rightMouseBtn;
+}
+
+bool cInputMgr::getInputAction(std::string button)
+{
+	for (auto &iter : m_inputActions)
+	{
+		if (iter.name == button)
+			return iter.state;
+	}
+
+	return false;
+}
+
+bool cInputMgr::getInputActionDown(std::string button)
+{
+	for (auto &iter : m_inputActions)
+	{
+		if (iter.name == button)
+			return iter.state && !iter.stateOld;
+	}
+
+	return false;
+}
+
+bool cInputMgr::getInputActionUp(std::string button)
+{
+	for (auto &iter : m_inputActions)
+	{
+		if (iter.name == button)
+			return !iter.state && iter.stateOld;
+	}
+
+	return false;
+}
+
+InputAction* cInputMgr::getInputActionState(std::string button)
+{
+	for (auto &iter : m_inputActions)
+	{
+		if (iter.name == button)
+			return &iter;
+	}
+
+	return nullptr;
+}
+
+void cInputMgr::updateInputActions()
+{
+	for (auto &iter : m_inputActions)
+	{
+		for (auto &key : iter.keys)
+		{
+			if (isKeyDown(key)) iter.state = true;
+		}
+		if (iter.state != iter.stateOld)
+			iter.InputActionChange(iter.state);
+	}
+}
+
+void cInputMgr::cleanInputActions()
+{
+	for (auto &iter : m_inputActions)
+	{
+		iter.stateOld = iter.state;
+		iter.state = false;
+	}
+}
+
+void cInputMgr::updateInputAxis()
+{
+	for (auto &iter : m_inputAxis)
+	{
+		float Pos = 0.0f;
+		float Neg = 0.0f;
+
+		for (auto &key : iter.keysPos)
+		{
+			if (isKeyDown(key)) Pos = 1;
+		}
+
+		for (auto &key : iter.keysNeg)
+		{
+			if (isKeyDown(key)) Neg = -1;
+		}
+
+		iter.state = Pos + Neg;
+		if (iter.state != 0)
+		{
+			iter.InputAxisChange(iter.state);
+		}
+	}
+}
+
+float cInputMgr::getInputAxis(std::string name)
+{
+	for (auto &iter : m_inputAxis)
+	{
+		if (iter.name == name)
+			return iter.state;
+	}
+	return 0;
+}
+
+InputAxis* cInputMgr::getInputAxisState(std::string name)
+{
+	for (auto &iter : m_inputAxis)
+	{
+		if (iter.name == name)
+			return &iter;
+	}
+
+	return nullptr;
+}
+
+void cInputMgr::cleanInputAxis()
+{
+	for (auto &iter : m_inputAxis)
+	{
+		iter.state = 0.0f;
+	}
 }
 

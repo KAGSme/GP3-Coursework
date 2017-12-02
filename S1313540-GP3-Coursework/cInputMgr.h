@@ -8,6 +8,7 @@ cInputMgr.h
 #ifndef _CINPUTMGR_H
 #define _CINPUTMGR_H
 #include "GameConstants.h"
+#include "InputHandle.h"
 
 class cInputMgr
 {
@@ -16,9 +17,12 @@ private:
 	bool keysDownBuffer[256];     // true if specified key is down
 	bool keysPressedBuffer[256];  // true if specified key was pressed
 	glm::ivec2  mousePos;		  // mouse screen coordinates
+	glm::ivec2  mousePosOld;
 	bool leftMouseBtn;            // true if left mouse button down
 	bool middleMouseBtn;          // true if middle mouse button down
 	bool rightMouseBtn;           // true if right mouse button down
+	std::vector<InputAction> m_inputActions;
+	std::vector<InputAxis> m_inputAxis;
 
 	static cInputMgr* pInstance;
 
@@ -40,6 +44,8 @@ public:
 	void clearKeyPress(int vkey);				// Clear the specified key press
 	void clearBuffers(BYTE bufferToClear);		// Clear buffers, single or combined
 	void mouseXY(LPARAM);						// Reads mouse screen position into mouseX, mouseY
+	glm::ivec2 mouseXYDelta();
+	void resetMouseDelta();
 	void setLeftMouseBtn(bool b);				// Save state of mouse button
 	void setMiddleMouseBtn(bool b);				// Save state of mouse button
 	void setRightMouseBtn(bool b);				// Save state of mouse button
@@ -48,6 +54,20 @@ public:
 	bool getLeftMouseBtn();						// Return state of left mouse button.
 	bool getMiddleMouseBtn();					// Return state of middle mouse button.
 	bool getRightMouseBtn();					// Return state of right mouse button.
+
+	void addInputAction(InputAction ia) { m_inputActions.push_back(ia); };
+	bool getInputAction(std::string button);
+	bool getInputActionDown(std::string button);
+	bool getInputActionUp(std::string button);
+	void updateInputActions();
+	void cleanInputActions();
+	InputAction* getInputActionState(std::string button);
+
+	void addInputAxis(InputAxis ia) { m_inputAxis.push_back(ia); };
+	void updateInputAxis();
+	float getInputAxis(std::string name);
+	void cleanInputAxis();
+	InputAxis* getInputAxisState(std::string name);
 
 };
 

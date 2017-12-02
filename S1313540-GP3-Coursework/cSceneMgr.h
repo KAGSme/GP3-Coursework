@@ -7,6 +7,8 @@
 #include "cActor.h"
 #include "cCamera.h"
 #include "GameConstants.h"
+#include "cPlayerCarActor.h"
+#include "cFreeCameraActor.h"
 
 class cSceneMgr
 {
@@ -19,8 +21,14 @@ public:
 	void render();
 	void setMainCamera(cCamera* camera) { m_mainCamera = camera; };
 	void addTexture(const std::string & filename);
+	void addTexture(cTexture* texture, const std::string & filename);
+	void addModelTexture(const std::string & path);
 	void addModel(const std::string & filename);
-	void addShader(cShader * shader, std::string name);
+	void addShader(cShader * shader, const std::string & name);
+	void addActor(cActor * actor, const std::string & name);
+	cModel* getModel(std::string name) { return m_models[name]; };
+	cActor* getActor(std::string name) { return m_actors[name]; };
+	cShader* getShader(std::string name) { return m_shaders[name]; };
 
 	void releaseResources();
 
@@ -32,7 +40,7 @@ private:
 	std::map<std::string,cTexture*> m_textures;
 	std::map<std::string, cShader*> m_shaders;
 	std::map<std::string, cModel*> m_models;
-	std::vector<cActor> m_actors;
+	std::map<std::string, cActor*> m_actors;
 };
 
 #endif

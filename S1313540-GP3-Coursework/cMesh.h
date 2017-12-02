@@ -25,8 +25,9 @@ public:
 	cMesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<cTexture*> textures);
 	~cMesh();
 	void renderMesh(cShader shader);
+	unsigned int VAO;
 private:
-	unsigned int VAO, VBO, EBO;
+	unsigned int VBO, EBO;
 	void setupMesh();
 };
 

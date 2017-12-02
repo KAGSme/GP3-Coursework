@@ -71,6 +71,8 @@ public:
 	glm::mat4 getTheProjectionMatrix();
 	glm::mat4 getTheViewMatrix();
 
+	void setParentTransform(cTransform* transform) { m_parentTransform = transform; };
+
 	void update();
 };
 #endif

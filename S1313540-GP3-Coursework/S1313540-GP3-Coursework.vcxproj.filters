@@ -75,6 +75,9 @@
     <ClCompile Include="cSceneMgr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cFreeCameraActor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cCamera.h">
@@ -138,6 +141,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cSceneMgr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cFreeCameraActor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
