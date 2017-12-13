@@ -148,7 +148,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="Libraries\DevIL.lib" />
     <Library Include="Libraries\freeglut.lib" />
     <Library Include="Libraries\ftgl.lib" />
     <Library Include="Libraries\ILU.lib" />
@@ -156,5 +155,6 @@
     <Library Include="Libraries\OpenAL32.lib" />
     <Library Include="Libraries\assimp.lib" />
     <Library Include="Libraries\glew32.lib" />
+    <Library Include="Libraries\SOIL.lib" />
   </ItemGroup>
 </Project>

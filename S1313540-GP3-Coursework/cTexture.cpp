@@ -30,7 +30,6 @@ cTexture::cTexture(LPCSTR theFilename)
 */
 cTexture::~cTexture()
 {
-	ilDeleteImages(1, &ilTextureID);
 }
 
 /*
@@ -40,44 +39,13 @@ cTexture::~cTexture()
 */
 bool cTexture::createTexture(LPCSTR theFilename) 	// create the texture for use.
 {
-	ILboolean success = false;
 	m_path = theFilename;
 
-	if (ilGetInteger(IL_VERSION_NUM) < IL_VERSION)
-	{
-		return false;
-	}
+	GLTextureID = SOIL_load_OGL_texture(m_path.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_COMPRESS_TO_DXT);
 
-	ilInit();  /*Initialize the DevIL library*/
-	ilGenImages(1, &ilTextureID); //Generate DevIL image objects
-	ilBindImage(ilTextureID); /* Binding of image object */
-	success = ilLoadImage((const ILstring)theFilename); /* Loading of image*/
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-	if (!success)
-	{
-		ilDeleteImages(1, &ilTextureID);
-		return false;
-	}
-
-	success = ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE); // Convert every colour component into unsigned byte.
-	if (!success)
-	{
-		return false;
-	}
-
-	textureWidth = ilGetInteger(IL_IMAGE_WIDTH);
-	textureHeight = ilGetInteger(IL_IMAGE_HEIGHT);
-
-	glGenTextures(1, &GLTextureID); // GLTexture name generation 
-	glBindTexture(GL_TEXTURE_2D, GLTextureID); // Binding of GLtexture name 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); // Use linear interpolation for magnification filter
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); // Use linear interpolation for minifying filter 
-	glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_BPP), ilGetInteger(IL_IMAGE_WIDTH),
-		ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE,
-		ilGetData()); /* Texture specification */
-	glBindTexture(GL_TEXTURE_2D, GLTextureID); // Binding of GLtexture name 
-
-	ilDeleteImages(1, &ilTextureID);
+	if (0 == GLTextureID) return false;
 
 	return true;
 }

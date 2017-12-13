@@ -101,6 +101,11 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	float tCount = 0.0f;
 	string outputMsg;
 
+	std::string versionGL = (char*)(glGetString(GL_VERSION));
+	
+	OutputDebugString(std::string("\nOPENGL VERSION: " + versionGL).c_str());
+	OutputDebugString(std::string("\nGLEW_VERSION: " + to_string(GLEW_VERSION_MAJOR)).c_str());
+	OutputDebugString(std::string("\nGLEW_VERSION_MINOR: " + to_string(GLEW_VERSION_MINOR)).c_str());
 
    //This is the mainloop, we render frames until isRunning returns false
 	while (pgmWNDMgr->isWNDRunning())
@@ -124,7 +129,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		//theFontMgr->getFont("DrWho")->printText(outputMsg.c_str(), FTPoint(850, 35, 0.0f), colour3f(255.0f, 255.0f, 0.0f)); // uses c_str to convert string to LPCSTR
 
 		//Clear key buffers
-		theInputMgr->clearBuffers(theInputMgr->KEYS_DOWN_BUFFER | theInputMgr->KEYS_PRESSED_BUFFER);
+		theInputMgr->clearBuffers(theInputMgr->KEYS_PRESSED_BUFFER);
 		theInputMgr->resetMouseDelta();
 		theInputMgr->cleanInputActions();
 		theInputMgr->cleanInputAxis();

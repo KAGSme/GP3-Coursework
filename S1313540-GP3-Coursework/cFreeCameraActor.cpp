@@ -52,7 +52,6 @@ void cFreeCameraActor::update(float elapsedTime)
 	//get mouse movement
 	glm::ivec2 deltaPos = cInputMgr::getInstance()->mouseXYDelta();
 	std::string sDeltaPos = "x: " + to_string(deltaPos.x) + ", y: " + to_string(deltaPos.y) + "\n";
-	OutputDebugString(sDeltaPos.c_str());
 	float deltaPitch = (float)deltaPos.y;
 	float deltaYaw = (float)deltaPos.x;
 
@@ -68,22 +67,28 @@ void cFreeCameraActor::update(float elapsedTime)
 
 void cFreeCameraActor::moveVertical(float state)
 {
-	OutputDebugString("moveVertical\n");
+	if (state >0)OutputDebugString("moveVertical pos\n");
+	else OutputDebugString("moveVertical neg\n");
 	m_transform->addPosition(m_camera->getTheCameraDirection() * currentElapsedTime * speed * state);
 }
 
 void cFreeCameraActor::moveHorizontal(float state)
 {
-	OutputDebugString("moveHorizontal\n");
+	if(state > 0)OutputDebugString("moveHorizontal Pos\n");
+	else OutputDebugString("moveHorizontal Neg\n");
 	m_transform->addPosition(m_camera->getTheCameraStrafe() * currentElapsedTime * speed * state);
 }
 
 void cFreeCameraActor::InputSpeedBoostHold(bool state)
 {
-	OutputDebugString("speedBoost\n");
 	if (state)
 	{
 		speed = boostSpeed;
+		OutputDebugString("speedBoost true\n");
 	}
-	else speed = standardSpeed;
+	else
+	{
+		speed = standardSpeed;
+		OutputDebugString("speedBoost false\n");
+	}
 }

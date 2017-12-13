@@ -23,7 +23,7 @@ cSceneMgr * cSceneMgr::getInstance()
 void cSceneMgr::begin()
 {
 	//set up scene here
-	//addModel("7h15t5bvooe8-Aventador/Avent.obj");
+	addModel("7h15t5bvooe8-Aventador/Avent.obj");
 	addModel("Nanosuit2/nanosuit2.obj");
 
 	addActor(new cFreeCameraActor(), "freeCamera");

@@ -102,7 +102,9 @@ std::vector<cTexture*> cModel::loadMaterialTextures(aiMaterial * mat, aiTextureT
 
 		aiString str;
 		mat->GetTexture(type, i, &str);
-		std::string filename = m_directory + '/' + str.C_Str();
+		std::string filename = str.C_Str();
+		filename = filename.substr(filename.find_last_of('/')+1, filename.length()-1);
+		filename = m_directory + '/' + filename;
 		bool skip = false;
 		for (unsigned int j = 0; j < m_loadedTextures.size(); j++)
 		{

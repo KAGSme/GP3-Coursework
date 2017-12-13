@@ -22,8 +22,6 @@ private:
 	GLuint aTextureInfo;
 	GLsizei textureWidth;
 	GLsizei textureHeight;
-	ILuint ilTextureID;
-	ILubyte *txData;
 	TextureType m_type;
 	std::string m_path;
 

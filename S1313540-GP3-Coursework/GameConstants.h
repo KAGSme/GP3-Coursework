@@ -15,9 +15,7 @@
 #include <ctime>
 
 // Image Texture loading library
-#include "IL\il.h"
-#include "IL\ilu.h"
-#include "IL\ilut.h"
+#include "SOIL/SOIL.h"
 
 // Font
 #include "FTGL\ftgl.h"

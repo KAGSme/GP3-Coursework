@@ -305,7 +305,7 @@ void cInputMgr::updateInputActions()
 	{
 		for (auto &key : iter.keys)
 		{
-			if (isKeyDown(key)) iter.state = true;
+			iter.state = isKeyDown(key);
 		}
 		if (iter.state != iter.stateOld)
 			iter.InputActionChange(iter.state);

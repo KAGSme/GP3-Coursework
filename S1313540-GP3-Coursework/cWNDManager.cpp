@@ -255,6 +255,12 @@ LRESULT CALLBACK cWNDManager::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 		return 0;
 	}
 		break;
+	case WM_KEYUP:
+	{
+		pInstance->m_InputMgr->keyUp(wParam);
+		return 0;
+	}
+	break;
 	case WM_MOUSEMOVE:
 	{
 		pInstance->m_InputMgr->mouseXY(lParam);
