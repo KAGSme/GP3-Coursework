@@ -16,6 +16,10 @@ public:
 	virtual void update(float elapsedTime);
 	virtual void render();
 
+	void moveVertical(float state);
+	void moveHorizontal(float state);
+	void Jump(bool state);
+
 	~cPlayer();
 };
 #endif

@@ -249,6 +249,18 @@ LRESULT CALLBACK cWNDManager::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 	}
 
 		break;
+	case WM_KEYUP:
+	{
+		pInstance->m_InputMgr->keyUp(wParam);
+		return 0;
+	}
+	break;
+	case WM_MOUSEMOVE:
+	{
+		pInstance->m_InputMgr->mouseXY(lParam);
+		return 0;
+	}
+	break;
 	default:
 		break;
 	}
@@ -262,10 +274,22 @@ windowOGL*  cWNDManager::getAttachedWND()
 }
 
 
+
+
+void cWNDManager::startCounter()
+{
+	LARGE_INTEGER li;
+	QueryPerformanceFrequency(&li);
+
+	PCFreq = float(li.QuadPart);
+
+	QueryPerformanceCounter(&li);
+	CounterStart = li.QuadPart;
+}
+
 float cWNDManager::getElapsedSeconds()
 {
-	float currentTime = float(GetTickCount()) / 1000.0f;
-	float seconds = float(currentTime - m_lastTime);
-	m_lastTime = currentTime;
-	return seconds;
+	LARGE_INTEGER li;
+	QueryPerformanceCounter(&li);
+	return float(li.QuadPart - CounterStart) / PCFreq;
 }

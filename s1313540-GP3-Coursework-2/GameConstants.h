@@ -12,6 +12,7 @@
 #include <iostream>
 #include <string>
 #include <ctime>
+#include <stdio.h>  
 
 // Image Texture loading library
 #include "IL\il.h"

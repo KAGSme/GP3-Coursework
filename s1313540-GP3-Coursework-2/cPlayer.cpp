@@ -8,49 +8,24 @@ cPlayer::cPlayer() : cModel()
 void cPlayer::attachInputMgr(cInputMgr* inputMgr)
 {
 	m_InputMgr = inputMgr;
+
+	InputAxis* iaV = m_InputMgr->getInputAxisState("Vertical");
+	if (iaV)
+		__hook(&InputAxis::InputAxisChange, iaV, &cPlayer::moveVertical);
+
+	InputAxis* iaH = m_InputMgr->getInputAxisState("Horizontal");
+	if (iaH)
+		__hook(&InputAxis::InputAxisChange, iaH, &cPlayer::moveHorizontal);
+
+	InputAction* iaS = m_InputMgr->getInputActionState("Jump");
+	if (iaS)
+		__hook(&InputAction::InputActionChange, iaS, &cPlayer::Jump);
 }
 
+float worldElapsedTime = 0;
 void cPlayer::update(float elapsedTime)
 {
-	if (m_InputMgr->isKeyDown(VK_RIGHT))
-	{
-		m_transform.addRotationEuler(glm::vec3(0, 5.0f * elapsedTime, 0));
-		GameOutputDebugString("Current Rotation " + to_string(getTransform().getRotationEuler().x)+ " " + to_string(getTransform().getRotationEuler().y)+ " " + to_string(getTransform().getRotationEuler().z));
-	}
-	if (m_InputMgr->isKeyDown(VK_LEFT))
-	{
-		m_transform.addRotationEuler(glm::vec3(0, -5.0f * elapsedTime, 0));
-		GameOutputDebugString("Current Rotation " + to_string(getTransform().getRotationEuler().x) + " " + to_string(getTransform().getRotationEuler().y) + " " + to_string(getTransform().getRotationEuler().z));
-	}
-	if (m_InputMgr->isKeyDown(VK_UP))
-	{
-		m_transform.addPosition(50.0f * getTransform().getForward() * elapsedTime);
-	}
-	if (m_InputMgr->isKeyDown(VK_DOWN))
-	{
-		m_transform.addPosition(-50.0f * getTransform().getForward() * elapsedTime);
-	}
-
-	if (m_InputMgr->isKeyDown(VK_SPACE))
-	{
-		glm::vec3 mdlLaserDirection;
-		mdlLaserDirection = getTransform().getForward();
-		GameOutputDebugString("Laser Direction" + to_string(mdlLaserDirection.x) + to_string(mdlLaserDirection.y) + to_string(mdlLaserDirection.z));
-
-		// Add new bullet sprite to the vector array
-		theTardisLasers.push_back(new cLaser);
-		int numLasers = theTardisLasers.size() - 1;
-		theTardisLasers[numLasers]->setDirection(mdlLaserDirection);
-		theTardisLasers[numLasers]->setRotation(0.0f);
-		theTardisLasers[numLasers]->setScale(glm::vec3(1, 1, 1));
-		theTardisLasers[numLasers]->setSpeed(5.0f);
-		theTardisLasers[numLasers]->setPosition(this->getPosition() + mdlLaserDirection);
-		theTardisLasers[numLasers]->setIsActive(true);
-		//theTardisLasers[numLasers]->setMdlDimensions(theLaser.getModelDimensions());
-		theTardisLasers[numLasers]->update(elapsedTime);
-		// play the firing sound
-		m_SoundMgr->getSnd("Shot")->playAudio(AL_TRUE);
-	}
+	worldElapsedTime = elapsedTime;
 
 	/*
 	==============================================================
@@ -122,7 +97,53 @@ void cPlayer::render()
 	m_model->renderMdl(getTransform().getPosition(), getTransform().getRotationEuler().y, getScale());
 }
 
+void cPlayer::moveVertical(float state)
+{
+	m_transform.addPosition(state * 50.0f * getTransform().getForward() * worldElapsedTime);
+}
+
+void cPlayer::moveHorizontal(float state)
+{
+	m_transform.addRotationEuler(glm::vec3(0, state *25.0f * worldElapsedTime, 0));
+	GameOutputDebugString("Current Rotation " + to_string(getTransform().getRotationEuler().x) + " " +
+		to_string(getTransform().getRotationEuler().y) + " " + to_string(getTransform().getRotationEuler().z));
+}
+
+void cPlayer::Jump(bool state)
+{
+	if (state)
+	{
+		glm::vec3 mdlLaserDirection;
+		mdlLaserDirection = getTransform().getForward();
+		GameOutputDebugString("Laser Direction" + to_string(mdlLaserDirection.x) + to_string(mdlLaserDirection.y) + to_string(mdlLaserDirection.z));
+
+		// Add new bullet sprite to the vector array
+		theTardisLasers.push_back(new cLaser);
+		int numLasers = theTardisLasers.size() - 1;
+		theTardisLasers[numLasers]->setDirection(mdlLaserDirection);
+		theTardisLasers[numLasers]->setRotation(0.0f);
+		theTardisLasers[numLasers]->setScale(glm::vec3(1, 1, 1));
+		theTardisLasers[numLasers]->setSpeed(5.0f);
+		theTardisLasers[numLasers]->setPosition(this->getTransform().getPosition() + mdlLaserDirection);
+		theTardisLasers[numLasers]->setIsActive(true);
+		//theTardisLasers[numLasers]->setMdlDimensions(theLaser.getModelDimensions());
+		theTardisLasers[numLasers]->update(worldElapsedTime);
+		// play the firing sound
+		m_SoundMgr->getSnd("Shot")->playAudio(AL_TRUE);
+	}
+}
+
 cPlayer::~cPlayer()
 {
+	InputAxis* iaV = m_InputMgr->getInputAxisState("Vertical");
+	if (iaV)
+		__unhook(&InputAxis::InputAxisChange, iaV, &cPlayer::moveVertical);
 
+	InputAxis* iaH = m_InputMgr->getInputAxisState("Horizontal");
+	if (iaH)
+		__unhook(&InputAxis::InputAxisChange, iaH, &cPlayer::moveHorizontal);
+
+	InputAction* iaS = m_InputMgr->getInputActionState("Jump");
+	if (iaS)
+		__unhook(&InputAction::InputActionChange, iaS, &cPlayer::Jump);
 }

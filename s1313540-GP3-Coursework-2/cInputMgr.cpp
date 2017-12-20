@@ -8,7 +8,7 @@ cInputMgr.h
 
 #include "cInputMgr.h"
 
-cInputMgr* cInputMgr::pInstance=NULL;
+cInputMgr* cInputMgr::pInstance = NULL;
 
 /*
 =================================================================================
@@ -39,7 +39,7 @@ cInputMgr::cInputMgr()
 	{
 		keysPressedBuffer[key] = false;
 	}
-	
+
 	mousePos.x = 0;                         // screen X
 	mousePos.y = 0;                         // screen Y
 	leftMouseBtn = false;               // true if left mouse button is down
@@ -50,7 +50,7 @@ cInputMgr::cInputMgr()
 
 /*
 =============================================================================
-   Set true in the keysDown and keysPessed array for this key
+Set true in the keysDown and keysPessed array for this key
 =============================================================================
 */
 void cInputMgr::keyDown(WPARAM wParam)
@@ -64,7 +64,7 @@ void cInputMgr::keyDown(WPARAM wParam)
 
 /*
 =============================================================================
-   Set false in the keysDown array for this key
+Set false in the keysDown array for this key
 =============================================================================
 */
 void cInputMgr::keyUp(WPARAM wParam)
@@ -76,7 +76,7 @@ void cInputMgr::keyUp(WPARAM wParam)
 }
 /*
 =============================================================================
-   Returns true if the specified VIRTUAL KEY is down, otherwise false.
+Returns true if the specified VIRTUAL KEY is down, otherwise false.
 =============================================================================
 */
 bool cInputMgr::isKeyDown(int vkey)
@@ -92,7 +92,7 @@ bool cInputMgr::isKeyDown(int vkey)
 }
 /*
 =============================================================================
-   Return true if the specified VIRTUAL KEY has been pressed
+Return true if the specified VIRTUAL KEY has been pressed
 =============================================================================
 */
 bool cInputMgr::wasKeyPressed(int vkey)
@@ -100,15 +100,15 @@ bool cInputMgr::wasKeyPressed(int vkey)
 	if (vkey < 256)
 	{
 		return keysPressedBuffer[vkey];
-	}		
+	}
 	else
 	{
 		return false;
-	}	
+	}
 }
 /*
 =============================================================================
-   Return true if any key was pressed
+Return true if any key was pressed
 =============================================================================
 */
 bool cInputMgr::anyKeyPressed()
@@ -124,7 +124,7 @@ bool cInputMgr::anyKeyPressed()
 }
 /*
 =============================================================================
-   Clear the specified key press
+Clear the specified key press
 =============================================================================
 */
 void cInputMgr::clearKeyPress(int vkey)
@@ -136,7 +136,7 @@ void cInputMgr::clearKeyPress(int vkey)
 }
 /*
 =============================================================================
-   Clear buffers, single or combined
+Clear buffers, single or combined
 =============================================================================
 */
 void cInputMgr::clearBuffers(BYTE bufferToClear)
@@ -163,7 +163,7 @@ void cInputMgr::clearBuffers(BYTE bufferToClear)
 }
 /*
 =============================================================================
-    Reads mouse screen position into mouseX, mouseY
+Reads mouse screen position into mouseX, mouseY
 =============================================================================
 */
 void cInputMgr::mouseXY(LPARAM lParam)
@@ -172,9 +172,19 @@ void cInputMgr::mouseXY(LPARAM lParam)
 	mousePos.y = HIWORD(lParam);
 }
 
+glm::ivec2 cInputMgr::mouseXYDelta()
+{
+	return mousePos - mousePosOld;
+}
+
+void cInputMgr::resetMouseDelta()
+{
+	mousePosOld = mousePos;
+}
+
 /*
 =============================================================================
-   Save state of mouse button
+Save state of mouse button
 =============================================================================
 */
 void cInputMgr::setLeftMouseBtn(bool b)
@@ -183,7 +193,7 @@ void cInputMgr::setLeftMouseBtn(bool b)
 }
 /*
 =============================================================================
-   Save state of mouse button
+Save state of mouse button
 =============================================================================
 */
 void cInputMgr::setMiddleMouseBtn(bool b)
@@ -192,7 +202,7 @@ void cInputMgr::setMiddleMouseBtn(bool b)
 }
 /*
 =============================================================================
-   Save state of mouse button
+Save state of mouse button
 =============================================================================
 */
 void cInputMgr::setRightMouseBtn(bool b)
@@ -201,7 +211,7 @@ void cInputMgr::setRightMouseBtn(bool b)
 }
 /*
 =============================================================================
-   Return mouse X position
+Return mouse X position
 =============================================================================
 */
 int  cInputMgr::getMouseXPos()
@@ -210,7 +220,7 @@ int  cInputMgr::getMouseXPos()
 }
 /*
 =============================================================================
-   Return mouse Y position
+Return mouse Y position
 =============================================================================
 */
 int  cInputMgr::getMouseYPos()
@@ -219,7 +229,7 @@ int  cInputMgr::getMouseYPos()
 }
 /*
 =============================================================================
-   Return state of left mouse button.
+Return state of left mouse button.
 =============================================================================
 */
 bool cInputMgr::getLeftMouseBtn()
@@ -228,7 +238,7 @@ bool cInputMgr::getLeftMouseBtn()
 }
 /*
 =============================================================================
-   Return state of middle mouse button.
+Return state of middle mouse button.
 =============================================================================
 */
 bool cInputMgr::getMiddleMouseBtn()
@@ -237,11 +247,131 @@ bool cInputMgr::getMiddleMouseBtn()
 }
 /*
 =============================================================================
-   Return state of right mouse button.
+Return state of right mouse button.
 =============================================================================
 */
 bool cInputMgr::getRightMouseBtn()
 {
 	return rightMouseBtn;
+}
+
+bool cInputMgr::getInputAction(std::string button)
+{
+	for (auto &iter : m_inputActions)
+	{
+		if (iter.name == button)
+			return iter.state;
+	}
+
+	return false;
+}
+
+bool cInputMgr::getInputActionDown(std::string button)
+{
+	for (auto &iter : m_inputActions)
+	{
+		if (iter.name == button)
+			return iter.state && !iter.stateOld;
+	}
+
+	return false;
+}
+
+bool cInputMgr::getInputActionUp(std::string button)
+{
+	for (auto &iter : m_inputActions)
+	{
+		if (iter.name == button)
+			return !iter.state && iter.stateOld;
+	}
+
+	return false;
+}
+
+InputAction* cInputMgr::getInputActionState(std::string button)
+{
+	for (auto &iter : m_inputActions)
+	{
+		if (iter.name == button)
+			return &iter;
+	}
+
+	return nullptr;
+}
+
+void cInputMgr::updateInputActions()
+{
+	for (auto &iter : m_inputActions)
+	{
+		for (auto &key : iter.keys)
+		{
+			iter.state = isKeyDown(key);
+		}
+		if (iter.state != iter.stateOld)
+			iter.InputActionChange(iter.state);
+	}
+}
+
+void cInputMgr::cleanInputActions()
+{
+	for (auto &iter : m_inputActions)
+	{
+		iter.stateOld = iter.state;
+		iter.state = false;
+	}
+}
+
+void cInputMgr::updateInputAxis()
+{
+	for (auto &iter : m_inputAxis)
+	{
+		float Pos = 0.0f;
+		float Neg = 0.0f;
+
+		for (auto &key : iter.keysPos)
+		{
+			if (isKeyDown(key)) Pos = 1;
+		}
+
+		for (auto &key : iter.keysNeg)
+		{
+			if (isKeyDown(key)) Neg = -1;
+		}
+
+		iter.state = Pos + Neg;
+		if (iter.state != 0)
+		{
+			iter.InputAxisChange(iter.state);
+		}
+	}
+}
+
+float cInputMgr::getInputAxis(std::string name)
+{
+	for (auto &iter : m_inputAxis)
+	{
+		if (iter.name == name)
+			return iter.state;
+	}
+	return 0;
+}
+
+InputAxis* cInputMgr::getInputAxisState(std::string name)
+{
+	for (auto &iter : m_inputAxis)
+	{
+		if (iter.name == name)
+			return &iter;
+	}
+
+	return nullptr;
+}
+
+void cInputMgr::cleanInputAxis()
+{
+	for (auto &iter : m_inputAxis)
+	{
+		iter.state = 0.0f;
+	}
 }
 

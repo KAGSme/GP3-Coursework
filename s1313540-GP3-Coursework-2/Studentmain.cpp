@@ -136,6 +136,26 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	//Clear key buffers
 	theInputMgr->clearBuffers(theInputMgr->KEYS_DOWN_BUFFER | theInputMgr->KEYS_PRESSED_BUFFER);
 
+	//set up actions and axis
+	InputAction* ia = new InputAction();
+	ia->name = "Jump";
+	ia->keys = { VK_SPACE };
+	theInputMgr->addInputAction(*ia);
+	InputAxis* iAxis = new InputAxis();
+	iAxis->name = "Vertical";
+	iAxis->keysPos = { 'W' };
+	iAxis->keysNeg = { 'S' };
+	theInputMgr->addInputAxis(*iAxis);
+	iAxis = new InputAxis();
+	iAxis->name = "Horizontal";
+	iAxis->keysPos = { 'D' };
+	iAxis->keysNeg = { 'A' };
+	theInputMgr->addInputAxis(*iAxis);
+
+	theInputMgr->resetMouseDelta();
+	theInputMgr->cleanInputActions();
+	theInputMgr->cleanInputAxis();
+
 	// Model
 	cModelLoader tardisMdl;
 	tardisMdl.loadModel("Models/tardis1314.obj", tardisTexture); // Player
@@ -169,14 +189,18 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 	std::vector<cLaser*> laserList;
 	std::vector<cLaser*>::iterator index;
+	pgmWNDMgr->startCounter();
 
    //This is the mainloop, we render frames until isRunning returns false
 	while (pgmWNDMgr->isWNDRunning())
     {
 		pgmWNDMgr->processWNDEvents(); //Process any window events
+		theInputMgr->updateInputActions();
+		theInputMgr->updateInputAxis();
 
         //We get the time that passed since the last frame
 		float elapsedTime = pgmWNDMgr->getElapsedSeconds();
+		pgmWNDMgr->startCounter();
 		
 		// Lab code goes here
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -224,14 +248,20 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		theOGLWnd.setOrtho2D(windowWidth, windowHeight);
 		theFontMgr->getFont("DrWho")->printText("Tardis Wars", FTPoint(10, 35, 0.0f), colour3f(0.0f,255.0f,0.0f));
 		theFontMgr->getFont("DrWho")->printText(outputMsg.c_str(), FTPoint(850, 35, 0.0f), colour3f(255.0f, 255.0f, 0.0f)); // uses c_str to convert string to LPCSTR
+		theFontMgr->getFont("DrWho")->printText(to_string(elapsedTime).c_str(), FTPoint(850, 70, 0.0f), colour3f(255.0f, 255.0f, 0.0f));
 		glPopMatrix();
+
+		GameOutputDebugString(to_string(elapsedTime).c_str());
 
 		pgmWNDMgr->swapBuffers();
 
 		tCount += elapsedTime;
 
 		//Clear key buffers
-		theInputMgr->clearBuffers(theInputMgr->KEYS_DOWN_BUFFER | theInputMgr->KEYS_PRESSED_BUFFER);
+		theInputMgr->clearBuffers(theInputMgr->KEYS_PRESSED_BUFFER);
+		theInputMgr->resetMouseDelta();
+		theInputMgr->cleanInputActions();
+		theInputMgr->cleanInputAxis();
 
 	}
 

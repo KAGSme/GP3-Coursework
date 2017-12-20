@@ -33,6 +33,7 @@ public:
 
 	static LRESULT CALLBACK WndProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+	void startCounter();
 	float getElapsedSeconds();
 	static cWNDManager* getInstance();
 
@@ -58,5 +59,7 @@ private:
 	HWND m_hwnd; //Window handle
 	HDC m_hdc; //Device context
 
+	float PCFreq = 0.0;
+	__int64 CounterStart = 0;
 };
 #endif
