@@ -14,13 +14,13 @@ void cPlayer::update(float elapsedTime)
 {
 	if (m_InputMgr->isKeyDown(VK_RIGHT))
 	{
-		m_transform.addRotationEuler(glm::vec3(0, 5.0f, 0));
-		GameOutputDebugString("Current Rotation" + to_string(getTransform().getRotationEuler().x) + to_string(getTransform().getRotationEuler().y) + to_string(getTransform().getRotationEuler().z));
+		m_transform.addRotationEuler(glm::vec3(0, 5.0f * elapsedTime, 0));
+		GameOutputDebugString("Current Rotation " + to_string(getTransform().getRotationEuler().x)+ " " + to_string(getTransform().getRotationEuler().y)+ " " + to_string(getTransform().getRotationEuler().z));
 	}
 	if (m_InputMgr->isKeyDown(VK_LEFT))
 	{
-		m_transform.addRotationEuler(glm::vec3(0, -5.0f, 0));
-		GameOutputDebugString("Current Rotation" + to_string(getTransform().getRotationEuler().x) + to_string(getTransform().getRotationEuler().y) + to_string(getTransform().getRotationEuler().z));
+		m_transform.addRotationEuler(glm::vec3(0, -5.0f * elapsedTime, 0));
+		GameOutputDebugString("Current Rotation " + to_string(getTransform().getRotationEuler().x) + " " + to_string(getTransform().getRotationEuler().y) + " " + to_string(getTransform().getRotationEuler().z));
 	}
 	if (m_InputMgr->isKeyDown(VK_UP))
 	{
