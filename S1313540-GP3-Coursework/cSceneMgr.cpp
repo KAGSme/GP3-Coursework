@@ -24,7 +24,7 @@ void cSceneMgr::begin()
 {
 	//set up scene here
 	addModel("7h15t5bvooe8-Aventador/Avent.obj");
-	addModel("Nanosuit2/nanosuit2.obj");
+	//addModel("nanosuit/nanosuit.obj");
 
 	addActor(new cFreeCameraActor(), "freeCamera");
 	addActor(new cPlayerCarActor(), "playerCar");

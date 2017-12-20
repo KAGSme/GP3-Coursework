@@ -14,7 +14,7 @@ cPlayerCarActor::~cPlayerCarActor()
 
 void cPlayerCarActor::begin()
 {
-	m_model = cSceneMgr::getInstance()->getModel("Nanosuit2/nanosuit2.obj");
+	m_model = cSceneMgr::getInstance()->getModel("7h15t5bvooe8-Aventador/Avent.obj");
 	m_shader = cSceneMgr::getInstance()->getShader("car");
 	m_transform->setPosition(glm::vec3(0, 0, 50));
 }
@@ -46,11 +46,17 @@ void cPlayerCarActor::render(cCamera * camera)
 	float power = 25;
 	m_shader->setFloat("specularPower", power);
 
-	glm::vec4 ambLightColor(0.2, 0.2, 0.2, 0.2);
+	glm::vec4 ambLightColor(0.5, 0.2, 0.2, 0.2);
 	m_shader->setVec4("ambientLightColor", ambLightColor);
 
 	glm::vec4 specLightColor(1, 1, 1, 1);
 	m_shader->setVec4("specularLightColor", specLightColor);
+
+	glm::vec4 ambMatColor(0.2, 0.2, 0.2, 1);
+	m_shader->setVec4("ambientMaterialColor", ambMatColor);
+
+	glm::vec4 difMatColor(0.2, 0.2, 0.2, 1);
+	m_shader->setVec4("diffuseMaterialColour", difMatColor);
 
 	m_model->RenderModel(*m_shader);
 }
