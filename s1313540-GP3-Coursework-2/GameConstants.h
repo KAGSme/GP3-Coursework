@@ -19,7 +19,7 @@
 #include "IL\ilut.h"
 
 // Model Loading Library
-#include "glm-0.3.2\glm\glm.h"
+#include "glm-0-3-2\glm.h"
 
 // Font
 #include "FTGL\ftgl.h"

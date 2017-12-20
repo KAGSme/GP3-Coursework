@@ -188,6 +188,6 @@
     <Library Include="Libraries\ILU.lib" />
     <Library Include="Libraries\ILUT.lib" />
     <Library Include="Libraries\OpenAL32.lib" />
-    <Library Include="Libraries\test.lib" />
+    <Library Include="Libraries\glm-0-3-2.lib" />
   </ItemGroup>
 </Project>

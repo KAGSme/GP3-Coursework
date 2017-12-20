@@ -28,7 +28,31 @@ cTransform::~cTransform()
 
 glm::vec3 cTransform::getRotationEuler()
 {
-	return glm::degrees(glm::eulerAngles(m_rotation));
+	float yaw, pitch, roll;
+	float test = m_rotation.x * m_rotation.y + m_rotation.z *m_rotation.w;
+	if (test > 0.499)
+	{
+		yaw = 2 * atan2(m_rotation.x, m_rotation.w);
+		roll = M_PI / 2;
+		pitch = 0;
+		return glm::degrees(glm::vec3(pitch, yaw, roll));
+	}
+	if (test < -0.499)
+	{
+		yaw = -2 * atan2(m_rotation.x, m_rotation.w);
+		roll = -M_PI / 2;
+		pitch = 0;
+		return glm::degrees(glm::vec3(pitch, yaw, roll));
+	}
+	float sqx = m_rotation.x * m_rotation.x;
+	float sqy = m_rotation.y * m_rotation.y;
+	float sqz = m_rotation.z * m_rotation.z;
+
+	yaw = atan2(2 * m_rotation.y* m_rotation.w - 2 * m_rotation.x * m_rotation.z, 1 - 2 * sqy - 2 * sqz);
+	roll = asin(2 * test);
+	pitch = atan2(2 * m_rotation.x*m_rotation.w - 2 * m_rotation.y*m_rotation.z, 1 - 2 * sqx - 2 * sqz);
+
+	return glm::degrees(glm::vec3(pitch, yaw, roll));
 }
 
 void cTransform::setRotationEuler(glm::vec3 newRotation)
