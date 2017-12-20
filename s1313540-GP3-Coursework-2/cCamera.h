@@ -19,6 +19,7 @@ private:
 	//--------------------------------------------------------------------------------------
 	// Added for the creation of a camera
 	//--------------------------------------------------------------------------------------
+	cTransform* m_parentTransform;
 	glm::mat4 m_camViewMatrix;     // Cameras view
 	glm::mat4 m_ProjectionMatrix;  // Projection Matrix
 	glm::vec3 m_cameraPos;			// Position of Camera in world
@@ -29,7 +30,7 @@ private:
 	GLfloat m_AspectRatio;
 	glm::mat4 m_camRotationMatrix;	// Rotation Matrix for camera to reflect movement around Y Axis
 	glm::vec3 m_camTransform;		// Used for repositioning the camer after it has been rotated
-
+	GLfloat m_yaw, m_pitch, m_roll;
 
 	glm::vec4 m_viewPort;
 
@@ -67,6 +68,8 @@ public:
 	void setTheProjectionMatrix(float fov, float aspectRatio, float nearCP, float farCP);
 	glm::mat4 getTheProjectionMatrix();
 	glm::mat4 getTheViewMatrix();
+
+	void setParentTransform(cTransform* transform) { m_parentTransform = transform; };
 
 	void update();
 };

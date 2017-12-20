@@ -229,7 +229,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		//tardisMdl.renderMdl(thePlayer.getTransform().getPosition(), thePlayer.getTransform().getRotationEuler().y, thePlayer.getScale());
 		thePlayer.render();
 		thePlayer.update(elapsedTime);
-		theCamera.setTheCameraLookAt(thePlayer.getPosition());
+		theCamera.setTheCameraLookAt(thePlayer.getTransform().getPosition());
 
 		theCamera.update();
 		

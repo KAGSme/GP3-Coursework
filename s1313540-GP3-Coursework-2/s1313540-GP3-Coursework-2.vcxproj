@@ -117,6 +117,7 @@
     <ClCompile Include="cEnemy.cpp" />
     <ClCompile Include="cFont.cpp" />
     <ClCompile Include="cFontMgr.cpp" />
+    <ClCompile Include="cFreeCam.cpp" />
     <ClCompile Include="cInputMgr.cpp" />
     <ClCompile Include="cLaser.cpp" />
     <ClCompile Include="cLight.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="cEnemy.h" />
     <ClInclude Include="cFont.h" />
     <ClInclude Include="cFontMgr.h" />
+    <ClInclude Include="cFreeCam.h" />
     <ClInclude Include="cInputMgr.h" />
     <ClInclude Include="cLaser.h" />
     <ClInclude Include="cLight.h" />
