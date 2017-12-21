@@ -48,6 +48,20 @@ void cModelLoader::renderMdl(glm::vec3 mdlPosition, float mdlRotationAngle, glm:
 	glPopMatrix();
 }
 
+void cModelLoader::renderMdl(cTransform * transform)
+{
+	glPushMatrix();
+	//transformations here...
+	glTranslatef(transform->getPosition().x, transform->getPosition().y, -transform->getPosition().z);
+	glRotatef(transform->getRotationEuler().y, 0, 1, 0);
+	glRotatef(transform->getRotationEuler().x, 1, 0, 0);
+	glRotatef(transform->getRotationEuler().z, 0, 0, 1);
+	glScalef(transform->getScale().x, transform->getScale().y, transform->getScale().z);
+
+	glmDraw(m_model, GLM_TEXTURE | GLM_MATERIAL);  // GLM_SMOOTH | GLM_TEXTURE | GLM_MATERIAL
+	glPopMatrix();
+}
+
 mdlDimensions cModelLoader::getModelDimensions()
 {
 	mdlDimensions mdl_Dims;

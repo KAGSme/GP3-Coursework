@@ -49,6 +49,9 @@
 //Other
 #include "cTransform.h"
 
+#define W_WIDTH 1024
+#define W_HEIGHT 768
+
 struct lightColour4
 {
 	lightColour4(float _r = 0.0f, float _g = 0.0f, float _b = 0.0f, float _a = 0.0f) : r(_r), g(_g), b(_b), a(_a) {}

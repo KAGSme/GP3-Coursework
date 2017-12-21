@@ -1,12 +1,13 @@
 #pragma once
-#include "cModel.h"
+#include "cActor.h"
 #include "cCamera.h"
 class cFreeCam :
-	public cModel
+	public cActor
 {
 private:
 	cInputMgr* m_InputMgr;
 	cCamera* m_camera;
+	float m_sensitivity = 0.5;
 public:
 	cFreeCam();
 

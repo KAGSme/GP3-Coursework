@@ -19,6 +19,8 @@ glm::mat4 cTransform::updateTransformMatrix()
 
 cTransform::cTransform()
 {
+	updateTransformMatrix();
+	m_scale = glm::vec3(1, 1, 1);
 }
 
 

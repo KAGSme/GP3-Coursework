@@ -1,5 +1,5 @@
-#ifndef _CMODEL_H
-#define _CMODEL_H
+#ifndef _CACTOR_H
+#define _CACTOR_H
 
 #include "cInputMgr.h"
 #include "cSoundMgr.h"
@@ -7,10 +7,10 @@
 #include "GameConstants.h"
 //#include "tardisWarsGame.h"
 
-class cModel
+class cActor
 {
 public:
-	cModel();
+	cActor();
 	void setPosition(glm::vec3 mdlPosition);
 	void setRotation(GLfloat mdlRotation);
 	void setDirection(glm::vec3 mdlDirection);
@@ -21,7 +21,7 @@ public:
 	void setScale(glm::vec3 mdlScale);
 	void setTextureID(GLuint theTextureID);
 
-	cTransform getTransform() { m_transform.getTransformationMatrix(); return m_transform; }
+	cTransform * getTransform() { m_transform.getTransformationMatrix(); return &m_transform; }
 
 	glm::vec3 getPosition();
 	GLfloat getRotation();
@@ -41,7 +41,7 @@ public:
 	void attachSoundMgr(cSoundMgr* soundMgr);  // Attach the Sound Manager
 	void attachModel(cModelLoader* model);
 
-	~cModel();
+	~cActor();
 
 private:
 	float lengthSQRD(glm::vec3 mdlLength);

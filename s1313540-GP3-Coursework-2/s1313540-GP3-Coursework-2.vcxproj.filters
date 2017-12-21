@@ -45,9 +45,6 @@
     <ClCompile Include="cMaterial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="cModelLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -99,6 +96,9 @@
     <ClCompile Include="cFreeCam.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cActor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cCamera.h">
@@ -129,9 +129,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cMaterial.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cModelLoader.h">
@@ -186,6 +183,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cFreeCam.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cActor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

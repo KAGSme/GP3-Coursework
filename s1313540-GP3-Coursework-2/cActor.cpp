@@ -1,6 +1,6 @@
-#include "cModel.h"
+#include "cActor.h"
 
-cModel::cModel()
+cActor::cActor()
 {
 	m_mdlPosition = glm::vec3(0.0f, 0.0f, 0.0f);
 	m_mdlRotation = 0.0f;
@@ -19,43 +19,43 @@ cModel::cModel()
 // Setters
 // +++++++++++++++++++++++++++++++++++++++++++++
 
-void cModel::setPosition(glm::vec3 mdlPosition)
+void cActor::setPosition(glm::vec3 mdlPosition)
 {
 	m_mdlPosition = mdlPosition;
 }
 
-void cModel::setRotation(GLfloat mdlRotation)
+void cActor::setRotation(GLfloat mdlRotation)
 {
 	m_mdlRotation = mdlRotation;
 }
 
-void cModel::setDirection(glm::vec3 mdlDirection)
+void cActor::setDirection(glm::vec3 mdlDirection)
 {
 	m_mdlDirection = mdlDirection;
 }
 
-void cModel::setSpeed(float mdlSpeed)
+void cActor::setSpeed(float mdlSpeed)
 {
 	m_mdlSpeed = mdlSpeed;
 }
 
-void cModel::setIsActive(bool mdlIsActive)
+void cActor::setIsActive(bool mdlIsActive)
 {
 	m_IsActive = mdlIsActive;
 }
 
-void cModel::setMdlDimensions(mdlDimensions mdlDims)
+void cActor::setMdlDimensions(mdlDimensions mdlDims)
 {
 	m_Dimensions = mdlDims;
 	m_mdlRadius = m_Dimensions.s_mdldepth / 2;
 }
 
-void cModel::setMdlRadius(float mdlRadius)
+void cActor::setMdlRadius(float mdlRadius)
 {
 	m_mdlRadius = mdlRadius;
 }
 
-void cModel::setScale(glm::vec3 mdlScale)
+void cActor::setScale(glm::vec3 mdlScale)
 {
 	m_mdlScale = mdlScale;
 }
@@ -64,52 +64,52 @@ void cModel::setScale(glm::vec3 mdlScale)
 // Getters
 // +++++++++++++++++++++++++++++++++++++++++++++
 
-glm::vec3 cModel::getPosition()
+glm::vec3 cActor::getPosition()
 {
 	return m_mdlPosition;
 }
 
-GLfloat cModel::getRotation()
+GLfloat cActor::getRotation()
 {
 	return m_mdlRotation;
 }
 
-glm::vec3 cModel::getDirection()
+glm::vec3 cActor::getDirection()
 {
 	return m_mdlDirection;
 }
 
-float cModel::getSpeed()
+float cActor::getSpeed()
 {
 	return m_mdlSpeed;
 }
 
-bool cModel::isActive()
+bool cActor::isActive()
 {
 	return m_IsActive;
 }
 
-mdlDimensions cModel::getMdlDimensions()
+mdlDimensions cActor::getMdlDimensions()
 {
 	return m_Dimensions;
 }
 
-float cModel::getMdlRadius()
+float cActor::getMdlRadius()
 {
 	return m_mdlRadius;
 }
 
-glm::vec3 cModel::getScale()
+glm::vec3 cActor::getScale()
 {
 	return m_mdlScale;
 }
 
-void cModel::setTextureID(GLuint theTextureID)
+void cActor::setTextureID(GLuint theTextureID)
 {
 	m_TextureID = theTextureID;
 }
 
-void cModel::initialise(glm::vec3 mdlPosition, GLfloat mdlRotation, glm::vec3 mdlScale, glm::vec3 mdlDirection, float mdlSpeed, bool mdlIsActive)
+void cActor::initialise(glm::vec3 mdlPosition, GLfloat mdlRotation, glm::vec3 mdlScale, glm::vec3 mdlDirection, float mdlSpeed, bool mdlIsActive)
 {
 	setPosition(mdlPosition);
 	m_transform.setPosition(mdlPosition);
@@ -130,7 +130,7 @@ void cModel::initialise(glm::vec3 mdlPosition, GLfloat mdlRotation, glm::vec3 md
 	glTranslatef(mdlPos.x,mdlPos.y,mdlPos.z);
 }
 
-bool cModel::SphereSphereCollision(glm::vec3 mdlPosition, float mdlRadius)
+bool cActor::SphereSphereCollision(glm::vec3 mdlPosition, float mdlRadius)
 {
 	const float distSq = lengthSQRD(m_mdlPosition - mdlPosition);
 
@@ -143,7 +143,7 @@ bool cModel::SphereSphereCollision(glm::vec3 mdlPosition, float mdlRadius)
 	return false; // No Collision
 }
 
-float cModel::lengthSQRD(glm::vec3 mdlLength)
+float cActor::lengthSQRD(glm::vec3 mdlLength)
 {
 	return (mdlLength.x * mdlLength.x) + (mdlLength.y * mdlLength.y) + (mdlLength.z * mdlLength.z);
 }
@@ -153,7 +153,7 @@ float cModel::lengthSQRD(glm::vec3 mdlLength)
 Attach the input manager to the sprite
 =================================================================
 */
-void cModel::attachInputMgr(cInputMgr* inputMgr)
+void cActor::attachInputMgr(cInputMgr* inputMgr)
 {
 	m_InputMgr = inputMgr;
 }
@@ -162,17 +162,17 @@ void cModel::attachInputMgr(cInputMgr* inputMgr)
 Attach the sound manager to the sprite
 =================================================================
 */
-void cModel::attachSoundMgr(cSoundMgr* soundMgr)
+void cActor::attachSoundMgr(cSoundMgr* soundMgr)
 {
 	m_SoundMgr = soundMgr;
 }
 
-void cModel::attachModel(cModelLoader * model)
+void cActor::attachModel(cModelLoader * model)
 {
 	m_model = model;
 }
 
-cModel::~cModel()
+cActor::~cActor()
 {
 
 }

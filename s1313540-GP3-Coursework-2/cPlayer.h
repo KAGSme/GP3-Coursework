@@ -3,10 +3,10 @@
 
 #include "GameConstants.h"
 #include "tardisWarsGame.h"
-#include "cModel.h"
+#include "cActor.h"
 #include "cInputMgr.h"
 
-class cPlayer : public cModel
+class cPlayer : public cActor
 {
 private:
 	cInputMgr* m_InputMgr;

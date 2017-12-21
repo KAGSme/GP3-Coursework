@@ -7,6 +7,7 @@ cInputMgr.h
 */
 
 #include "cInputMgr.h"
+#include "cWNDManager.h"
 
 cInputMgr* cInputMgr::pInstance = NULL;
 
@@ -179,7 +180,8 @@ glm::ivec2 cInputMgr::mouseXYDelta()
 
 void cInputMgr::resetMouseDelta()
 {
-	mousePosOld = mousePos;
+	//mousePosOld = mousePos;
+	mousePosOld = glm::ivec2(W_WIDTH/2, W_HEIGHT/2 - 12);
 }
 
 /*

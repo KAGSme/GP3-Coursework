@@ -21,11 +21,12 @@
 #include "cInputMgr.h"
 #include "cSoundMgr.h"
 #include "cModelLoader.h"
-#include "cModel.h"
+#include "cActor.h"
 #include "cPlayer.h"
 #include "cEnemy.h"
 #include "cLaser.h"
 #include "tardisWarsGame.h"
+#include "cFreeCam.h"
 
 int WINAPI WinMain(HINSTANCE hInstance,
                    HINSTANCE hPrevInstance,
@@ -151,10 +152,26 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	iAxis->keysPos = { 'D' };
 	iAxis->keysNeg = { 'A' };
 	theInputMgr->addInputAxis(*iAxis);
+	iAxis = new InputAxis();
+	iAxis->name = "camHorizontal";
+	iAxis->keysPos = { VK_RIGHT };
+	iAxis->keysNeg = { VK_LEFT };
+	theInputMgr->addInputAxis(*iAxis);
+	iAxis = new InputAxis();
+	iAxis->name = "camVertical";
+	iAxis->keysPos = { VK_UP };
+	iAxis->keysNeg = { VK_DOWN };
+	theInputMgr->addInputAxis(*iAxis);
 
 	theInputMgr->resetMouseDelta();
 	theInputMgr->cleanInputActions();
 	theInputMgr->cleanInputAxis();
+
+	cFreeCam theFreeCam;
+	theFreeCam.attachCamera(&theCamera);
+	theFreeCam.attachInputMgr(theInputMgr);
+	theFreeCam.getTransform()->setScale(glm::vec3(1, 1, 1));
+	theFreeCam.getTransform()->setPosition(glm::vec3(0, 0, 75.0f));
 
 	// Model
 	cModelLoader tardisMdl;
@@ -217,6 +234,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		rfLight.lightOn();
 		cbLight.lightOn();
 
+		theFreeCam.update(elapsedTime);
+
 		for (vector<cEnemy*>::iterator enemyIterator = theEnemy.begin(); enemyIterator != theEnemy.end(); ++enemyIterator)
 		{
 			if ((*enemyIterator)->isActive())
@@ -229,9 +248,9 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		//tardisMdl.renderMdl(thePlayer.getTransform().getPosition(), thePlayer.getTransform().getRotationEuler().y, thePlayer.getScale());
 		thePlayer.render();
 		thePlayer.update(elapsedTime);
-		theCamera.setTheCameraLookAt(thePlayer.getTransform().getPosition());
+		//theCamera.setTheCameraLookAt(thePlayer.getTransform().getPosition());
 
-		theCamera.update();
+		//theCamera.update();
 		
 		for (vector<cLaser*>::iterator laserIterartor = theTardisLasers.begin(); laserIterartor != theTardisLasers.end(); ++laserIterartor)
 		{

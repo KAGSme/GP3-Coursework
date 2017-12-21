@@ -1,6 +1,6 @@
 #include "cPlayer.h"
 
-cPlayer::cPlayer() : cModel()
+cPlayer::cPlayer() : cActor()
 {
 
 }
@@ -73,40 +73,23 @@ void cPlayer::update(float elapsedTime)
 			++enemyIterartor;
 		}
 	}
-
-	// Find out what direction we should be thrusting, using rotation.
-	glm::vec3 mdlVelocityAdd;
-	mdlVelocityAdd.x = -(float)glm::sin(glm::radians(m_mdlRotation));  // Remember to adjust for radians
-	mdlVelocityAdd.y = 0.0f;
-	mdlVelocityAdd.z = -(float)glm::cos(glm::radians(m_mdlRotation));
-
-	m_mdlRotation -= rotationAngle;
-
-	mdlVelocityAdd *= translationZ;
-	m_mdlDirection += mdlVelocityAdd;
-
-	m_mdlPosition += m_mdlDirection * m_mdlSpeed *elapsedTime;
-	m_mdlDirection *= 0.95f;
-
-	rotationAngle = 0;
-	translationZ = 0;
 }
 
 void cPlayer::render()
 {
-	m_model->renderMdl(getTransform().getPosition(), getTransform().getRotationEuler().y, getScale());
+	m_model->renderMdl(getTransform());
 }
 
 void cPlayer::moveVertical(float state)
 {
-	m_transform.addPosition(state * 50.0f * getTransform().getForward() * worldElapsedTime);
+	m_transform.addPosition(state * 50.0f * getTransform()->getForward() * worldElapsedTime);
 }
 
 void cPlayer::moveHorizontal(float state)
 {
-	m_transform.addRotationEuler(glm::vec3(0, state *25.0f * worldElapsedTime, 0));
-	GameOutputDebugString("Current Rotation " + to_string(getTransform().getRotationEuler().x) + " " +
-		to_string(getTransform().getRotationEuler().y) + " " + to_string(getTransform().getRotationEuler().z));
+	m_transform.addRotationEuler(glm::vec3(0, -state *50.0f * worldElapsedTime, 0));
+	GameOutputDebugString("Current Rotation " + to_string(getTransform()->getRotationEuler().x) + " " +
+		to_string(getTransform()->getRotationEuler().y) + " " + to_string(getTransform()->getRotationEuler().z));
 }
 
 void cPlayer::Jump(bool state)
@@ -114,7 +97,7 @@ void cPlayer::Jump(bool state)
 	if (state)
 	{
 		glm::vec3 mdlLaserDirection;
-		mdlLaserDirection = getTransform().getForward();
+		mdlLaserDirection = getTransform()->getForward();
 		GameOutputDebugString("Laser Direction" + to_string(mdlLaserDirection.x) + to_string(mdlLaserDirection.y) + to_string(mdlLaserDirection.z));
 
 		// Add new bullet sprite to the vector array
@@ -124,7 +107,7 @@ void cPlayer::Jump(bool state)
 		theTardisLasers[numLasers]->setRotation(0.0f);
 		theTardisLasers[numLasers]->setScale(glm::vec3(1, 1, 1));
 		theTardisLasers[numLasers]->setSpeed(5.0f);
-		theTardisLasers[numLasers]->setPosition(this->getTransform().getPosition() + mdlLaserDirection);
+		theTardisLasers[numLasers]->setPosition(this->getTransform()->getPosition() + mdlLaserDirection);
 		theTardisLasers[numLasers]->setIsActive(true);
 		//theTardisLasers[numLasers]->setMdlDimensions(theLaser.getModelDimensions());
 		theTardisLasers[numLasers]->update(worldElapsedTime);

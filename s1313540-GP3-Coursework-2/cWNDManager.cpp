@@ -182,6 +182,11 @@ void cWNDManager::setupPixelFormat(void)
 LRESULT CALLBACK cWNDManager::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	cWNDManager* theWindow = NULL;
+
+	RECT r;
+	GetWindowRect(pInstance->m_hwnd, &r);
+	SetCursorPos((r.left + r.right) / 2, (r.top + r.bottom) / 2);
+
 	switch (uMsg)
 	{
 	case WM_CREATE:         // window creation
@@ -264,7 +269,6 @@ LRESULT CALLBACK cWNDManager::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 	default:
 		break;
 	}
-
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 

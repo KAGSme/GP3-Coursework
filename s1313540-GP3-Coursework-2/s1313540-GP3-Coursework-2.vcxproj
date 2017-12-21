@@ -122,7 +122,7 @@
     <ClCompile Include="cLaser.cpp" />
     <ClCompile Include="cLight.cpp" />
     <ClCompile Include="cMaterial.cpp" />
-    <ClCompile Include="cModel.cpp" />
+    <ClCompile Include="cActor.cpp" />
     <ClCompile Include="cModelLoader.cpp" />
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cPyramid.cpp" />
@@ -152,7 +152,7 @@
     <ClInclude Include="cLaser.h" />
     <ClInclude Include="cLight.h" />
     <ClInclude Include="cMaterial.h" />
-    <ClInclude Include="cModel.h" />
+    <ClInclude Include="cActor.h" />
     <ClInclude Include="cModelLoader.h" />
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cPyramid.h" />

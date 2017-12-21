@@ -2,9 +2,9 @@
 #define _CENEMIES_H
 
 #include "GameConstants.h"
-#include "cModel.h"
+#include "cActor.h"
 
-class cEnemy : public cModel
+class cEnemy : public cActor
 {
 public:
 	cEnemy();
